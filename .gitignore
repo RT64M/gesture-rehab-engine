@@ -1,0 +1,44 @@
+# Default deny: keep everything local unless it is explicitly allowed below.
+*
+
+# Git metadata for this allowlist.
+!/.gitignore
+
+# Allow directory traversal so nested allow rules can match.
+!*/
+
+# English user-facing README.
+!/README.md
+
+# Project runtime definition.
+!/pyproject.toml
+!/uv.lock
+
+# Core Python code and tests.
+!/src/
+!/src/**/*.py
+!/scripts/
+!/scripts/**/*.py
+!/experiments/
+!/experiments/**/*.py
+!/tests/
+!/tests/**/*.py
+
+# Local showcase demo that is being rebuilt for presentation.
+!/web_demo/
+!/web_demo/*.html
+!/web_demo/*.css
+!/web_demo/*.js
+!/web_demo/*.json
+
+# Selected experiment/report figures only.
+!/report/
+!/report/figures/
+!/report/figures/*.png
+!/report/figures/*.svg
+!/report/figures/*.pdf
+!/artifacts/
+!/artifacts/figures/
+!/artifacts/figures/*.png
+!/artifacts/figures/*.svg
+!/artifacts/figures/*.pdf

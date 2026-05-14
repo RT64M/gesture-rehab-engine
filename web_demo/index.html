@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gesture Scoring Engine Demo</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="rail" data-copy-attr="aria-label:navAria">
+        <div class="brand-lockup">
+          <span class="brand-mark" data-copy="brandMark"></span>
+          <div>
+            <p class="eyebrow" data-copy="brandEyebrow"></p>
+            <h1 data-copy="brandTitle"></h1>
+          </div>
+        </div>
+        <nav class="tab-list" data-copy-attr="aria-label:tabAria">
+          <button class="tab-button active" data-view="classifier" type="button">
+            <span data-copy="tabClassifierIndex"></span>
+            <b data-copy="tabClassifier"></b>
+          </button>
+          <button class="tab-button" data-view="cold-start" type="button">
+            <span data-copy="tabColdStartIndex"></span>
+            <b data-copy="tabColdStart"></b>
+          </button>
+          <button class="tab-button" data-view="inverse" type="button">
+            <span data-copy="tabInverseIndex"></span>
+            <b data-copy="tabInverse"></b>
+          </button>
+        </nav>
+        <div class="rail-card gesture-card">
+          <p class="rail-label" data-copy="selectedGesture"></p>
+          <select id="global-gesture-select" data-copy-attr="aria-label:selectedGesture"></select>
+        </div>
+        <div class="rail-card compact">
+          <p class="rail-label" data-copy="challengeBand"></p>
+          <strong id="rail-zone-range">60-85</strong>
+          <span data-copy="softRegulation"></span>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <section class="hero-strip">
+          <div>
+            <p class="eyebrow" data-copy="heroEyebrow"></p>
+            <h2 id="hero-title"></h2>
+          </div>
+          <div id="hero-metrics" class="hero-metrics"></div>
+        </section>
+
+        <section id="view-classifier" class="view active" aria-labelledby="classifier-title">
+          <div class="view-grid classifier-grid">
+            <article class="surface intro-surface">
+              <p class="eyebrow" data-copy="pageOne"></p>
+              <h3 id="classifier-title" data-copy="classifierTitle"></h3>
+              <p id="classifier-copy" class="lead-copy"></p>
+              <div class="button-row">
+                <button id="camera-toggle" class="command-button primary" type="button"></button>
+                <button id="camera-snapshot" class="command-button" type="button"></button>
+              </div>
+              <div id="classifier-result" class="classifier-result"></div>
+              <div id="score-explanation" class="score-explanation"></div>
+            </article>
+
+            <article class="surface camera-surface">
+              <div class="surface-heading">
+                <div>
+                  <p class="eyebrow" data-copy="liveCamera"></p>
+                  <h3 data-copy="cameraFeed"></h3>
+                </div>
+              </div>
+              <div class="camera-stage">
+                <video id="camera-video" playsinline muted></video>
+              </div>
+              <p id="camera-status" class="status-line"></p>
+            </article>
+
+            <article class="surface snapshot-surface">
+              <div class="surface-heading">
+                <div>
+                  <p class="eyebrow" data-copy="sampledFrame"></p>
+                  <h3 data-copy="lastSnapshot"></h3>
+                </div>
+              </div>
+              <canvas id="snapshot-canvas" class="snapshot-canvas"></canvas>
+              <p id="snapshot-status" class="status-line"></p>
+            </article>
+
+            <article class="surface">
+              <div class="surface-heading">
+                <div>
+                  <p class="eyebrow" data-copy="nearestDescriptors"></p>
+                  <h3 data-copy="distanceRanking"></h3>
+                </div>
+              </div>
+              <div id="distance-ranking" class="ranking-list"></div>
+            </article>
+
+            <article class="surface">
+              <div class="surface-heading">
+                <div>
+                  <p class="eyebrow" data-copy="featureExplanation"></p>
+                  <h3 data-copy="dominantDeviations"></h3>
+                </div>
+              </div>
+              <div id="classifier-deviations" class="feature-list"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="view-cold-start" class="view" aria-labelledby="cold-start-title">
+          <div class="view-grid process-grid">
+            <article class="surface intro-surface">
+              <p class="eyebrow" data-copy="pageTwo"></p>
+              <h3 id="cold-start-title" data-copy="coldStartTitle"></h3>
+              <p id="cold-start-copy" class="lead-copy"></p>
+              <p id="scenario-description" class="scenario-note"></p>
+              <div class="control-grid two">
+                <label>
+                  <span data-copy="presetProcess"></span>
+                  <select id="preset-select"></select>
+                </label>
+                <label>
+                  <span data-copy="attemptCursor"></span>
+                  <input id="attempt-range" type="range" min="1" max="16" value="1">
+                </label>
+              </div>
+              <div class="button-row">
+                <button id="play-toggle" class="command-button primary" type="button"></button>
+                <button id="step-back" class="command-button" type="button" data-copy="backButton"></button>
+                <button id="step-forward" class="command-button" type="button" data-copy="nextButton"></button>
+              </div>
+            </article>
+
+            <article class="surface score-surface">
+              <div id="attempt-summary" class="attempt-summary"></div>
+              <div class="skeleton-compare">
+                <div>
+                  <p class="rail-label" data-copy="patientAttempt"></p>
+                  <canvas id="patient-skeleton" class="skeleton-canvas"></canvas>
+                </div>
+                <div>
+                  <p class="rail-label" data-copy="standardTarget"></p>
+                  <canvas id="standard-skeleton" class="skeleton-canvas"></canvas>
+                </div>
+              </div>
+              <div id="score-band-chart" class="chart-host tall"></div>
+            </article>
+
+            <article class="surface">
+              <div class="surface-heading">
+                <div>
+                  <p class="eyebrow" data-copy="stateVariables"></p>
+                  <h3 data-copy="adaptiveParameters"></h3>
+                </div>
+              </div>
+              <div id="state-grid" class="state-grid"></div>
+            </article>
+
+            <article class="surface">
+              <div class="surface-heading">
+                <div>
+                  <p class="eyebrow" data-copy="roundUpdates"></p>
+                  <h3 data-copy="tauBaselineMomentum"></h3>
+                </div>
+              </div>
+              <div id="round-timeline" class="timeline"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="view-inverse" class="view" aria-labelledby="inverse-title">
+          <div class="view-grid inverse-grid">
+            <article class="surface intro-surface">
+              <p class="eyebrow" data-copy="pageThree"></p>
+              <h3 id="inverse-title" data-copy="inverseTitle"></h3>
+              <p id="inverse-copy" class="lead-copy"></p>
+              <p id="inverse-insight" class="scenario-note"></p>
+              <div id="inverse-headline" class="inverse-headline"></div>
+            </article>
+
+            <article class="surface">
+              <div class="surface-heading">
+                <div>
+                  <p class="eyebrow" data-copy="rawVsInterpreted"></p>
+                  <h3 data-copy="scoreInverseProgress"></h3>
+                </div>
+              </div>
+              <div id="inverse-chart" class="chart-host tall"></div>
+            </article>
+
+            <article class="surface">
+              <div class="surface-heading">
+                <div>
+                  <p class="eyebrow" data-copy="weightedSignal"></p>
+                  <h3 data-copy="progressComponents"></h3>
+                </div>
+              </div>
+              <div id="component-stack" class="component-stack"></div>
+            </article>
+
+            <article class="surface figure-surface">
+              <div class="surface-heading">
+                <div>
+                  <p class="eyebrow" data-copy="chapterSix"></p>
+                  <h3 data-copy="stateVariablesFigure"></h3>
+                </div>
+                <a href="../report/figures/phase4_linear_recovery_state_variables.png" target="_blank" rel="noreferrer" data-copy="openAsset"></a>
+              </div>
+              <img src="../report/figures/phase4_linear_recovery_state_variables.png" data-copy-attr="alt:inverseFigureAlt">
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
